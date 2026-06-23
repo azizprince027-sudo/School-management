@@ -8,6 +8,7 @@ const subjectService = require('./services/subjectServices.js');
 const gradeService = require('./services/gradeServices.js');
 const absenceService = require('./services/absenceServices.js');
 const statsService = require('./services/meilleursEtudian.js');
+const db = require('./db/database.js');
 
 function ecranAccueil() {
     console.log('\n=== Bienvenue sur School Management ===');
@@ -197,9 +198,23 @@ function menuEtudiant(etudiant) {
     }
     menuEtudiant(etudiant);
 }
+
+    function seedAdmin() {
+    const existe = db.prepare(
+    "SELECT id FROM users WHERE name = 'Admin' AND role = 'admin'"
+    ).get();
+    if (!existe) {
+    userService.ajouterUser('Admin', 'admin', '1234');
+    logInfo('Compte admin par defaut cree (identifiant: Admin / code: 1234)');
+    }
+    }
+    seedAdmin();
+    logInfo("Demarrage de l'application School Management");
+    ecranAccueil();
+
 // Premier admin a creer manuellement si la table users est vide.
 // Astuce de demarrage : decommentez la ligne suivante une seule fois,
 // puis recommentez-la apres la creation du premier admin.
-userService.ajouterUser('Admin', 'admin', '1234');
-logInfo('Demarrage de l\'application School Management');
-ecranAccueil();
+// userService.ajouterUser('Admin', 'admin', '1234');
+// logInfo('Demarrage de l\'application School Management');
+// ecranAccueil();

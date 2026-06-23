@@ -1,23 +1,56 @@
 const fs = require("fs");
-const path = require("path");
+    const path = require("path");
+    const LOG = path.join(__dirname, "../logs/app.log");
+    
+  
+    function formatDate() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}
+        ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
 
-// Définition du chemin du fichier de log ( je dit sors du fich loggers et entre dans le dossier logs et crée un fichier app.log)
+    function writeLog(level, message) {
+        const line = `${formatDate()} [${level}] ${message}\n`;
+        fs.appendFileSync(LOG, line, "utf8");   
+    }
 
-const LOG = path.join(__dirname, '../logs/app.log');
+    function logInfo(message) {
+        writeLog("INFO", message);
+    }
 
-// Fonction pour écrire les logs dans le fichier (horodatage);
-function log(level, message) {
-  // convertir une date et une heure en une chaîne de caractères (du texte)
-    const date = new Date().toISOString().replace('T', ' ').slice(0, 19);
-    const ligne = `${date} [${level}] ${message}\n`;
-    fs.appendFileSync(LOG, ligne, 'utf8');
-}
+    function logWarning(message) {
+        writeLog("WARNING", message);
+    }
 
-module.exports = {
-    info: (msg) => log('INFO', msg),
-    warning: (msg) => log('WARNING',msg),
-    error: (msg) => log('ERROR', msg),
-};
+
+    function logError(message) {
+        writeLog("ERROR", message);
+    }
+
+    module.exports = { logInfo, logWarning, logError };
+
+//========================================================
+// const fs = require("fs");
+// const path = require("path");
+
+// // Définition du chemin du fichier de log ( je dit sors du fich loggers et entre dans le dossier logs et crée un fichier app.log)
+
+// const LOG = path.join(__dirname, '../logs/app.log');
+
+// // Fonction pour écrire les logs dans le fichier (horodatage);
+// function log(level, message) {
+//   // convertir une date et une heure en une chaîne de caractères (du texte)
+//     const date = new Date().toISOString().replace('T', ' ').slice(0, 19);
+//     const ligne = `${date} [${level}] ${message}\n`;
+//     fs.appendFileSync(LOG, ligne, 'utf8');
+// }
+
+// module.exports = {
+//     info: (msg) => log('INFO', msg),
+//     warning: (msg) => log('WARNING',msg),
+//     error: (msg) => log('ERROR', msg),
+// };
 
 // function formatDate() {
 //     // La fonction "formatDate" crée une nouvelle instance de l'objet Date pour obtenir la date et l'heure actuelles. Elle utilise une fonction "pad" pour ajouter un zéro devant les nombres inférieurs à 10, assurant ainsi que les mois, jours, heures, minutes et secondes sont toujours affichés avec deux chiffres. Enfin, elle retourne une chaîne de caractères formatée au format "YYYY-MM-DD HH:MM:SS", qui peut être utilisée pour enregistrer des timestamps dans les logs.
@@ -54,22 +87,3 @@ module.exports = {
 
 
 
-// const fs = require("fs");
-// const path = require("path");
-// const LOG = path.join(__dirname, "../logs/app.log");
-// // ■ BUG 3 : Créer le dossier logs/ si inexistant
-// fs.mkdirSync(path.dirname(LOG), { recursive: true });
-// function formatDate() {
-// const d = new Date();
-// const pad = (n) => String(n).padStart(2, "0");
-// return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}
-// ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-// }
-// function writeLog(level, message) {
-// const line = `${formatDate()} [${level}] ${message}\n`;
-// fs.appendFileSync(LOG, line, "utf8"); // ■ BUG 2 : LOG (pas logFile)
-// }
-// function logInfo(message) { writeLog("INFO", message); }
-// function logWarning(message) { writeLog("WARNING", message); }
-// function logError(message) { writeLog("ERROR", message); }
-// module.exports = { logInfo, logWarning, logError };

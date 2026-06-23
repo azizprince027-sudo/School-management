@@ -1,6 +1,6 @@
 const db = require('../db/database.js');
 const { logInfo } = require('../utils/logger.js');
-const { ajouterUser } = require('./userService');
+const { ajouterUser } = require('./userServices.js');
 // L'admin cree d'abord le compte (users), puis la fiche professeur (teachers)
 function ajouterProfesseur(nom, matiere, classe, codeAcces) {
     const userId = ajouterUser(nom, 'professeur', codeAcces);
