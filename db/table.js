@@ -1,4 +1,4 @@
-const db = require('./database.js').db;
+const db = require('./database.js');
 
 function initDatabase() {
     // La méthode "pragma" est utilisée pour activer les clés étrangères dans la base de données SQLite. En définissant la valeur de "foreign_keys" sur "ON", cela permet d'assurer l'intégrité référentielle entre les tables, garantissant que les relations entre les enregistrements sont respectées.

@@ -14,12 +14,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs", 
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/azizprince027-sudo/School-management/issues"
   },
   "homepage": "https://github.com/azizprince027-sudo/School-management#readme",
   "dependencies": {
-    "better-sqlite3": "^12.10.0"
+    "better-sqlite3": "^12.10.0",
+    "readline-sync": "^1.4.10"
   }
 }

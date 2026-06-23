@@ -1,9 +1,9 @@
 const db = require('../db/database.js');
 const { logInfo, logWarning } = require('../utils/logger.js');
-const { isNoteValide } = require('../utils/validation.js');
+const { NoteValide } = require('../utils/validation.js');
 // La fonction "ajouterNote" est utilisée pour ajouter une note à un étudiant pour une matière donnée. Elle prend trois paramètres : "studentId" qui représente l'id de l'étudiant, "subjectId" qui représente l'id de la matière, et "note" qui représente la note à ajouter. La fonction vérifie d'abord si la note est valide en utilisant la fonction "isNoteValide". Si la note n'est pas valide, une alerte est enregistrée dans les logs et la fonction retourne false. Si la note est valide, une requête SQL préparée est utilisée pour insérer la note dans la table "grades". Après l'ajout, une information est enregistrée dans les logs pour indiquer que la note a été ajoutée.
 function ajouterNote(studentId, subjectId, note) {
-    if (!isNoteValide(note)) {
+    if (!NoteValide(note)) {
         logWarning(`Note invalide rejetee : ${note}`);
         return false;
     }
@@ -15,7 +15,7 @@ function ajouterNote(studentId, subjectId, note) {
 }
 // La fonction "modifierNote" est utilisée pour modifier une note existante dans la base de données. Elle prend deux paramètres : "gradeId" qui représente l'id de la note à modifier, et "nouvelleNote" qui représente la nouvelle note à attribuer. La fonction vérifie d'abord si la nouvelle note est valide en utilisant la fonction "isNoteValide". Si la nouvelle note n'est pas valide, une alerte est enregistrée dans les logs et la fonction retourne false. Si la nouvelle note est valide, une requête SQL préparée est utilisée pour mettre à jour la note correspondante à cet id dans la table "grades". Après la modification, une information est enregistrée dans les logs pour indiquer que la note a été modifiée.
 function modifierNote(gradeId, nouvelleNote) {
-    if (!isNoteValide(nouvelleNote)) {
+    if (!NoteValide(nouvelleNote)) {
         logWarning(`Note invalide rejetee : ${nouvelleNote}`);
         return false;
     }
