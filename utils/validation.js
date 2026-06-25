@@ -11,4 +11,9 @@ function AgeValide(age) {
 function NonVide(texte) {
     return typeof texte === 'string' && texte.trim().length > 0;
 }
-module.exports = { NoteValide, AgeValide, NonVide };
+
+function DateValide(date) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date));
+}
+
+module.exports = { NoteValide, AgeValide, NonVide, DateValide };

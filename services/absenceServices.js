@@ -1,11 +1,17 @@
 const db = require('../db/database.js');
 const { logInfo } = require('../utils/logger.js');
+const { DateValide } = require('../utils/validation.js');
 // La fonction "enregistrerAbsence" est utilisée pour enregistrer une absence d'un étudiant pour une date donnée. Elle prend deux paramètres : "studentId" qui représente l'id de l'étudiant, et "date" qui représente la date de l'absence. La fonction utilise une requête SQL préparée pour insérer l'absence dans la table "absences" avec le statut par défaut "non_justifiee". Après l'enregistrement, une information est enregistrée dans les logs pour indiquer que l'absence a été enregistrée.
 function enregistrerAbsence(studentId, date) {
+    if (!DateValide(date)) {
+        logWarning(`Date invalide rejetee : ${date}`);
+        return false;
+    }
     db.prepare(
         "INSERT INTO absences (student_id, date, status) VALUES (?, ?, 'non_justifiee')"
     ).run(studentId, date);
     logInfo(`Absence enregistree : etudiant ${studentId} le ${date}`);
+    return true;
 }
 // La fonction "marquerStatut" est utilisée pour marquer une absence avec un statut spécifique (justifiee ou non_justifiee). Elle prend deux paramètres : "absenceId" qui représente l'id de l'absence à marquer, et "status" qui représente le statut à attribuer à cette absence. La fonction utilise une requête SQL préparée pour mettre à jour le statut de l'absence correspondante à cet id dans la table "absences". Après la modification, une information est enregistrée dans les logs pour indiquer que l'absence a été marquée avec le nouveau statut.
 function marquerStatut(absenceId, status) {
