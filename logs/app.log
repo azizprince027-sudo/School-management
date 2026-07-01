@@ -22,3 +22,55 @@
 02:03:35 [INFO] Matiere ajoutee : Git
 2026-07-01
 02:04:52 [INFO] Matiere supprimee : id 5
+2026-07-01
+02:36:55 [INFO] Demarrage de l'application School Management
+2026-07-01
+02:37:18 [INFO] Connexion reussite : admin Admin
+2026-07-01
+02:38:50 [INFO] Utilisateur ajoute : Ouattara (professeur)
+2026-07-01
+02:38:50 [INFO] Professeur ajoute : Ouattara - Resaux - Classe A
+2026-07-01
+02:40:37 [INFO] Professeur modifie : id 2
+2026-07-01
+02:41:09 [INFO] Utilisateur ajoute : kk (professeur)
+2026-07-01
+02:41:09 [INFO] Professeur ajoute : kk - mm - Classe o
+2026-07-01
+02:41:33 [INFO] Professeur supprime : id 4
+2026-07-01
+02:42:33 [WARNING] Echec ajout etudiant (matricule en double ?) : 18026927F
+2026-07-01
+02:43:31 [INFO] Etudiant ajoute : 18026927S
+2026-07-01
+02:46:06 [INFO] Etudiant modifie : 18026927F
+2026-07-01
+02:46:59 [INFO] Etudiant supprime : 18026927S
+2026-07-01
+02:49:16 [INFO] Matiere ajoutee : Java Scripts
+2026-07-01
+02:50:07 [INFO] Professeur 0 affecte a la matiere 0
+2026-07-01
+02:51:47 [INFO] Professeur 1 affecte a la matiere 3
+2026-07-01
+02:53:21 [INFO] Matiere supprimee : id 1
+2026-07-01
+02:56:32 [INFO] Professeur modifie : id 1
+2026-07-01
+02:57:45 [INFO] Professeur modifie : id 2
+2026-07-01
+02:58:26 [INFO] Matiere ajoutee : Resaux
+2026-07-01
+02:59:17 [INFO] Professeur 3 affecte a la matiere 7
+2026-07-01
+03:00:00 [INFO] Professeur 50 affecte a la matiere 90
+2026-07-01
+03:01:09 [INFO] Connexion reussite : admin Admin
+2026-07-01
+03:02:01 [WARNING] Tentative de connexion echouee pour OOOO
+2026-07-01
+03:02:19 [WARNING] Tentative de connexion echouee pour Ouattara
+2026-07-01
+03:03:01 [WARNING] Tentative de connexion echouee pour Ouattara
+2026-07-01
+03:03:59 [INFO] Connexion reussite : professeur Ouattara
