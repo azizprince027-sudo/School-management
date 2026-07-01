@@ -1,2 +1,24 @@
 2026-06-27
 13:38:46 [INFO] Demarrage de l'application School Management
+2026-07-01
+01:49:50 [INFO] Demarrage de l'application School Management
+2026-07-01
+01:50:13 [INFO] Connexion reussite : admin Admin
+2026-07-01
+01:53:25 [INFO] Professeur modifie : id 2
+2026-07-01
+01:56:10 [ERROR] Erreur critique non geree : FOREIGN KEY constraint failed
+2026-07-01
+01:59:37 [INFO] Demarrage de l'application School Management
+2026-07-01
+01:59:52 [WARNING] Tentative de connexion echouee pour Admin
+2026-07-01
+02:00:33 [INFO] Connexion reussite : admin Admin
+2026-07-01
+02:01:30 [INFO] Etudiant modifie : 18026927F
+2026-07-01
+02:02:40 [INFO] Etudiant supprime : 18026927G
+2026-07-01
+02:03:35 [INFO] Matiere ajoutee : Git
+2026-07-01
+02:04:52 [INFO] Matiere supprimee : id 5

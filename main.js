@@ -72,11 +72,18 @@
         const choix = choixMenu('=== MENU ADMINISTRATEUR ===', [
             'Ajouter un professeur',
             'Lister les professeurs',
+            'Modifier un professeur',           // NOUVEAU
+            'Supprimer un professeur',          // NOUVEAU
             'Ajouter un etudiant',
             'Lister les etudiants',
+            'Modifier un etudiant',             // NOUVEAU
+            'Supprimer un etudiant',            // NOUVEAU
             'Ajouter une matiere',
             'Affecter un professeur a une matiere',
             'Lister les matieres',
+            'Supprimer une matiere',            // NOUVEAU
+            'Voir les absences d\'une classe',  // NOUVEAU
+            'Lister tous les utilisateurs',     // NOUVEAU
             'Se deconnecter'
         ]);
         if (choix === 1) {
@@ -89,6 +96,22 @@
         } else if (choix === 2) {
             console.table(teacherService.listerProfesseurs());
         } else if (choix === 3) {
+            const id = question('ID du professeur a modifier :');
+            const prof = teacherService.rechercherProfesseur(Number(id));
+            if (!prof) {
+                console.log('Professeur introuvable.');
+            } else {
+                const nom = question(`Nom (${prof.nom}) :`) || prof.nom;
+                const matiere = question(`Matiere (${prof.matiere}) :`) || prof.matiere;
+                const classe = question(`Classe (${prof.classe}) :`) || prof.classe;
+                teacherService.modifierProfesseur(Number(id), { nom, matiere, classe });
+                console.log('Professeur modifie.');
+            }
+        } else if (choix === 4) {
+            const id = question('ID du professeur a supprimer :');
+            teacherService.supprimerProfesseur(Number(id));
+            console.log('Professeur supprime.');
+        } else if (choix === 5) {
             const matricule = question('Matricule :');
             const nom = question('Nom :');
             const prenom = question('Prenom :');
@@ -96,20 +119,46 @@
             const classe = question('Classe :');
             const ok = studentService.ajouterEtudiant(matricule, nom, prenom, Number(age), classe);
             console.log(ok ? 'Etudiant ajoute.' : 'Erreur : matricule deja utilise.');
-        } else if (choix === 4) {
+        } else if (choix === 6) {
             console.table(studentService.listerEtudiants());
-        } else if (choix === 5) {
+        } else if (choix === 7) {
+            const matricule = question('Matricule de l\'etudiant a modifier :');
+            const etudiant = studentService.rechercherEtudiant(matricule);
+            if (!etudiant) {
+                console.log('Etudiant introuvable.');
+            } else {
+                const nom = question(`Nom (${etudiant.nom}) :`) || etudiant.nom;
+                const prenom = question(`Prenom (${etudiant.prenom}) :`) || etudiant.prenom;
+                const age = question(`Age (${etudiant.age}) :`) || etudiant.age;
+                const classe = question(`Classe (${etudiant.classe}) :`) || etudiant.classe;
+                const ok = studentService.modifierEtudiant(matricule, { nom, prenom, age: Number(age), classe });
+                console.log(ok ? 'Etudiant modifie.' : 'Champs invalides.');
+            }
+        } else if (choix === 8) {
+            const matricule = question('Matricule de l\'etudiant a supprimer :');
+            studentService.supprimerEtudiant(matricule);
+            console.log('Etudiant supprime.');
+        } else if (choix === 9) {
             const nom = question('Nom de la matiere :');
             subjectService.ajouterMatiere(nom);
             console.log('Matiere ajoutee.');
-        } else if (choix === 6) {
+        } else if (choix === 10) {
             const subjectId = question('ID matiere :');
             const teacherId = question('ID professeur :');
             subjectService.affecterProfesseur(Number(subjectId), Number(teacherId));
             console.log('Affectation effectuee.');
-        } else if (choix === 7) {
+        } else if (choix === 11) {
             console.table(subjectService.listerMatieres());
-        } else if (choix === 8) {
+        } else if (choix === 12) {
+            const subjectId = question('ID de la matiere a supprimer :');
+            subjectService.supprimerMatiere(Number(subjectId));
+            console.log('Matiere supprimee.');
+        } else if (choix === 13) {
+            const classe = question('Classe :');
+            console.table(absenceService.historiqueClasse(classe));
+        } else if (choix === 14) {
+            console.table(userService.listerUsers());
+        } else if (choix === 15) {
             ecranAccueil();
             return;
         }
@@ -123,8 +172,11 @@
             'Modifier une note',
             'Supprimer une note',
             'Calculer la moyenne d\'un etudiant',
+            'Voir toutes les notes d\'un etudiant',      // NOUVEAU
             'Enregistrer une absence',
             'Marquer une absence',
+            'Voir l\'historique d\'absences d\'un etudiant', // NOUVEAU
+            'Compter les absences du jour (classe)',      // NOUVEAU
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'
@@ -161,23 +213,43 @@
         } else if (choix === 6) {
             const matricule = question('Matricule etudiant :');
             const etudiant = studentService.rechercherEtudiant(matricule);
+            if (etudiant) {
+                console.table(gradeService.notesEtudiant(etudiant.id));
+            } else {
+                console.log('Etudiant introuvable.');
+            }
+        } else if (choix === 7) {
+            const matricule = question('Matricule etudiant :');
+            const etudiant = studentService.rechercherEtudiant(matricule);
             const date = question('Date (AAAA-MM-JJ) :');
             if (etudiant) {
                 absenceService.enregistrerAbsence(etudiant.id, date);
                 console.log('Absence enregistree.');
             }
-        } else if (choix === 7) {
+        } else if (choix === 8) {
             const absenceId = question('ID absence :');
             const justifiee = confirmer('Absence justifiee ?');
             absenceService.marquerStatut(Number(absenceId), justifiee ? 'justifiee' : 'non_justifiee');
             console.log('Statut mis a jour.');
-        } else if (choix === 8) {
+        } else if (choix === 9) {
+            const matricule = question('Matricule etudiant :');
+            const etudiant = studentService.rechercherEtudiant(matricule);
+            if (etudiant) {
+                console.table(absenceService.historiqueEtudiant(etudiant.id));
+            } else {
+                console.log('Etudiant introuvable.');
+            }
+        } else if (choix === 10) {
+            const date = question('Date (AAAA-MM-JJ) :');
+            const total = statsService.compterAbsencesJour(date, prof.classe);
+            console.log(`Absences le ${date} pour la classe ${prof.classe} : ${total}`);
+        } else if (choix === 11) {
             const meilleur = statsService.meilleurEtudiant(prof.classe);
             console.log(meilleur ? meilleur : 'Aucune note enregistree.');
-        } else if (choix === 9) {
+        } else if (choix === 12) {
             const moyenne = statsService.moyenneGeneraleClasse(prof.classe);
             console.log(`Moyenne generale de la classe : ${moyenne !== null ? moyenne : 'aucune note'}`);
-        } else if (choix === 10) {
+        } else if (choix === 13) {
             ecranAccueil();
             return;
         }
@@ -188,6 +260,7 @@
         const choix = choixMenu(`=== MENU ETUDIANT (${etudiant.prenom} ${etudiant.nom}) ===`, [
             'Voir mes notes',
             'Voir ma moyenne',
+            'Voir mon historique d\'absences', // NOUVEAU
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'
@@ -198,12 +271,14 @@
             const moyenne = gradeService.moyenneEtudiant(etudiant.id);
             console.log(`Ma moyenne : ${moyenne !== null ? moyenne : 'aucune note'}`);
         } else if (choix === 3) {
+            console.table(absenceService.historiqueEtudiant(etudiant.id));
+        } else if (choix === 4) {
             const meilleur = statsService.meilleurEtudiant(etudiant.classe);
             console.log(meilleur ? meilleur : 'Aucune note enregistree.');
-        } else if (choix === 4) {
+        } else if (choix === 5) {
             const moyenne = statsService.moyenneGeneraleClasse(etudiant.classe);
             console.log(`Moyenne generale : ${moyenne !== null ? moyenne : 'aucune note'}`);
-        } else if (choix === 5) {
+        } else if (choix === 6) {
             ecranAccueil();
             return;
         }
@@ -219,6 +294,7 @@
             logInfo('Compte admin par defaut cree (identifiant: Admin / code: 1234)');
         }
     }
+
     // .get() est utilisé pour récupérer un seul enregistrement de la base de données. Si aucun enregistrement n'est trouvé, il retourne undefined. Dans ce cas, on vérifie si le compte admin existe déjà avant de le créer.
     initDatabase();
     seedAdmin();

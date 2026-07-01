@@ -1,5 +1,5 @@
 const db = require('../db/database.js');
-const { logInfo } = require('../utils/logger.js');
+const { logInfo, logWarning } = require('../utils/logger.js');
 const { DateValide } = require('../utils/validation.js');
 // La fonction "enregistrerAbsence" est utilisée pour enregistrer une absence d'un étudiant pour une date donnée. Elle prend deux paramètres : "studentId" qui représente l'id de l'étudiant, et "date" qui représente la date de l'absence. La fonction utilise une requête SQL préparée pour insérer l'absence dans la table "absences" avec le statut par défaut "non_justifiee". Après l'enregistrement, une information est enregistrée dans les logs pour indiquer que l'absence a été enregistrée.
 function enregistrerAbsence(studentId, date) {

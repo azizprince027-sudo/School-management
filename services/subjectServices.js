@@ -20,4 +20,11 @@
     LEFT JOIN teachers ON subjects.teacher_id = teachers.id
     `).all();
     }
-    module.exports = { ajouterMatiere, affecterProfesseur, listerMatieres };
+
+    // NOUVEAU : supprimer une matiere (fonctionnalite manquante ajoutee)
+    function supprimerMatiere(subjectId) {
+        db.prepare('DELETE FROM subjects WHERE id = ?').run(subjectId);
+        logInfo(`Matiere supprimee : id ${subjectId}`);
+    }
+
+    module.exports = { ajouterMatiere, affecterProfesseur, listerMatieres, supprimerMatiere };
