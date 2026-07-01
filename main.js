@@ -72,18 +72,18 @@
         const choix = choixMenu('=== MENU ADMINISTRATEUR ===', [
             'Ajouter un professeur',
             'Lister les professeurs',
-            'Modifier un professeur',           // NOUVEAU
-            'Supprimer un professeur',          // NOUVEAU
+            'Modifier un professeur',           
+            'Supprimer un professeur',          
             'Ajouter un etudiant',
             'Lister les etudiants',
-            'Modifier un etudiant',             // NOUVEAU
-            'Supprimer un etudiant',            // NOUVEAU
+            'Modifier un etudiant',             
+            'Supprimer un etudiant',        
             'Ajouter une matiere',
             'Affecter un professeur a une matiere',
             'Lister les matieres',
-            'Supprimer une matiere',            // NOUVEAU
-            'Voir les absences d\'une classe',  // NOUVEAU
-            'Lister tous les utilisateurs',     // NOUVEAU
+            'Supprimer une matiere',            
+            'Voir les absences d\'une classe',  
+            'Lister tous les utilisateurs',     
             'Se deconnecter'
         ]);
         if (choix === 1) {
@@ -172,11 +172,11 @@
             'Modifier une note',
             'Supprimer une note',
             'Calculer la moyenne d\'un etudiant',
-            'Voir toutes les notes d\'un etudiant',      // NOUVEAU
+            'Voir toutes les notes d\'un etudiant',      
             'Enregistrer une absence',
             'Marquer une absence',
-            'Voir l\'historique d\'absences d\'un etudiant', // NOUVEAU
-            'Compter les absences du jour (classe)',      // NOUVEAU
+            'Voir l\'historique d\'absences d\'un etudiant', 
+            'Compter les absences du jour (classe)',      
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'
@@ -260,7 +260,7 @@
         const choix = choixMenu(`=== MENU ETUDIANT (${etudiant.prenom} ${etudiant.nom}) ===`, [
             'Voir mes notes',
             'Voir ma moyenne',
-            'Voir mon historique d\'absences', // NOUVEAU
+            'Voir mon historique d\'absences', 
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'

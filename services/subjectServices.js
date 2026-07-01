@@ -21,7 +21,7 @@
     `).all();
     }
 
-    // NOUVEAU : supprimer une matiere (fonctionnalite manquante ajoutee)
+
     function supprimerMatiere(subjectId) {
         db.prepare('DELETE FROM subjects WHERE id = ?').run(subjectId);
         logInfo(`Matiere supprimee : id ${subjectId}`);
