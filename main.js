@@ -36,8 +36,8 @@
         if (role === 1) {
             const name = question('Nom :');
             const code = question('Code d\'acces :');
-            const user = authService.loginUser(name, code);
-            if (user && user.role === 'admin') {
+            const user = authService.loginUser(name, code, 'administrateur');
+            if (user && user.role === 'administrateur') {
                 menuAdmin();
             } else {
                 console.log('Identifiants incorrects.');
@@ -46,7 +46,7 @@
         } else if (role === 2) {
             const name = question('Nom :');
             const code = question('Code d\'acces :');
-            const user = authService.loginUser(name, code);
+            const user = authService.loginUser(name, code, 'professeur');
             if (user && user.role === 'professeur') {
                 const fiche = teacherService.getProfesseurParUserId(user.id);
                 menuProfesseur(fiche);

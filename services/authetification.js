@@ -1,10 +1,10 @@
 const db = require('../db/database.js');
 const { logInfo, logWarning } = require('../utils/logger.js');
 // Connexion admin ou professeur via nom + code d'acces
-function loginUser(name, codeAcces) {
+function loginUser(name, codeAcces,role  ) {
     const user = db.prepare(
-        'SELECT * FROM users WHERE name = ? AND code_acces = ?'
-    ).get(name, codeAcces);
+        'SELECT * FROM users WHERE name = ? AND code_acces = ? AND role = ?'
+    ).get(name, codeAcces, role);
 
     if (!user) {
         logWarning(`Tentative de connexion echouee pour ${name}`);
