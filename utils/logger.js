@@ -1,13 +1,17 @@
 const fs = require("fs");
 const path = require("path");
-const LOG = path.join(__dirname, "../logs/app.log");
 
+const LOG_DIR = path.join(__dirname, "../logs");
+const LOG = path.join(LOG_DIR, "app.log");
+
+if (!fs.existsSync(LOG_DIR)) {
+    fs.mkdirSync(LOG_DIR, { recursive: true });
+}
 
 function formatDate() {
     const d = new Date();
     const pad = (n) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}
-${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
 function writeLog(level, message) {
@@ -15,18 +19,11 @@ function writeLog(level, message) {
     fs.appendFileSync(LOG, line, "utf8");
 }
 
-function logInfo(message) {
-    writeLog("INFO", message);
-}
+function logInfo(message) { writeLog("INFO", message); }
 
-function logWarning(message) {
-    writeLog("WARNING", message);
-}
+function logWarning(message) { writeLog("WARNING", message); }
 
-
-function logError(message) {
-    writeLog("ERROR", message);
-}
+function logError(message) { writeLog("ERROR", message); }
 
 module.exports = { logInfo, logWarning, logError };
 

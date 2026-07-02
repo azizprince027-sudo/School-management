@@ -31,8 +31,14 @@ function modifierEtudiant(matricule, champs) {
 // La fonction "supprimerEtudiant" est utilisée pour supprimer un étudiant de la base de données en utilisant son matricule. Elle prend un paramètre "matricule" qui représente le matricule de l'étudiant à supprimer. La fonction utilise une requête SQL préparée pour supprimer l'étudiant correspondant à ce matricule dans la table "students". Après la suppression, une information est enregistrée dans les logs pour indiquer que l'étudiant a été supprimé.
 
 function supprimerEtudiant(matricule) {
-    db.prepare('DELETE FROM students WHERE matricule = ?').run(matricule);
-    logInfo(`Etudiant supprime : ${matricule}`);
+    try {
+        db.prepare('DELETE FROM students WHERE matricule = ?').run(matricule);
+        logInfo(`Etudiant supprime : ${matricule}`);
+        return true;
+    } catch (err) {
+        logWarning(`Suppression etudiant ${matricule} impossible : notes/absences liees`);
+        return false;
+    }
 }
 // La fonction "rechercherEtudiant" est utilisée pour rechercher un étudiant dans la base de données en utilisant son matricule. Elle prend un paramètre "matricule" qui représente le matricule de l'étudiant à rechercher. La fonction utilise une requête SQL préparée pour sélectionner l'étudiant correspondant à ce matricule dans la table "students". Si un étudiant avec ce matricule est trouvé, ses informations sont retournées sous forme d'objet. Si aucun étudiant n'est trouvé, la fonction retourne undefined.
 

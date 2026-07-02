@@ -1,5 +1,5 @@
     const db = require('../db/database.js');
-    const { logInfo } = require('../utils/logger.js');
+    const { logInfo, logWarning } = require('../utils/logger.js');
 
     function ajouterMatiere(nom, teacherId = null) {
         const stmt = db.prepare('INSERT INTO subjects (nom, teacher_id) VALUES (?, ?)');
@@ -21,10 +21,15 @@
     `).all();
     }
 
-
     function supprimerMatiere(subjectId) {
-        db.prepare('DELETE FROM subjects WHERE id = ?').run(subjectId);
-        logInfo(`Matiere supprimee : id ${subjectId}`);
+        try {
+            db.prepare('DELETE FROM subjects WHERE id = ?').run(subjectId);
+            logInfo(`Matiere supprimee : id ${subjectId}`);
+            return true;
+        } catch (err) {
+            logWarning(`Suppression matiere ${subjectId} impossible : notes liees`);
+            return false;
+        }
     }
 
     module.exports = { ajouterMatiere, affecterProfesseur, listerMatieres, supprimerMatiere };

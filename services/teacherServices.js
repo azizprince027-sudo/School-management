@@ -1,5 +1,5 @@
 const db = require('../db/database.js');
-const { logInfo } = require('../utils/logger.js');
+const { logInfo, logWarning } = require('../utils/logger.js');
 const { ajouterUser } = require('./userServices.js');
 // L'admin cree d'abord le compte (users), puis la fiche professeur (teachers)
 function ajouterProfesseur(nom, matiere, classe, codeAcces) {
@@ -19,7 +19,7 @@ function modifierProfesseur(id, champs) {
     db.prepare(
         'UPDATE teachers SET nom = ?, matiere = ?, classe = ? WHERE id = ?'
     ).run(nom, matiere, classe, id);
-    
+
     if (prof) {
         db.prepare('UPDATE users SET name = ? WHERE id = ?').run(nom, prof.user_id);
     }
@@ -27,13 +27,18 @@ function modifierProfesseur(id, champs) {
 }
 // La fonction "supprimerProfesseur" est utilisée pour supprimer un professeur de la base de données en utilisant son id. Elle prend un paramètre "id" qui représente l'id du professeur à supprimer. La fonction utilise une requête SQL préparée pour supprimer le professeur correspondant à cet id dans la table "teachers". Après la suppression, une information est enregistrée dans les logs pour indiquer que le professeur a été supprimé.
 function supprimerProfesseur(id) {
-    // On recupere le user_id lie a ce professeur AVANT la suppression
     const prof = db.prepare('SELECT user_id FROM teachers WHERE id = ?').get(id);
-    db.prepare('DELETE FROM teachers WHERE id = ?').run(id);
+    try {
+        db.prepare('DELETE FROM teachers WHERE id = ?').run(id);
+    } catch (err) {
+        logWarning(`Suppression professeur ${id} impossible : encore affecte a une matiere`);
+        return false;
+    }
     if (prof) {
         db.prepare('DELETE FROM users WHERE id = ?').run(prof.user_id);
     }
     logInfo(`Professeur supprime : id ${id}`);
+    return true;
 }
 // La fonction "rechercherProfesseur" est utilisée pour rechercher un professeur dans la base de données en utilisant son id. Elle prend un paramètre "id" qui représente l'id du professeur à rechercher. La fonction utilise une requête SQL préparée pour sélectionner le professeur correspondant à cet id dans la table "teachers". Si un professeur avec cet id est trouvé, ses informations sont retournées sous forme d'objet. Si aucun professeur n'est trouvé, la fonction retourne undefined.
 function rechercherProfesseur(id) {

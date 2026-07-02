@@ -36,8 +36,8 @@
         if (role === 1) {
             const name = question('Nom :');
             const code = question('Code d\'acces :');
-            const user = authService.loginUser(name, code, 'administrateur');
-            if (user && user.role === 'administrateur') {
+            const user = authService.loginUser(name, code, 'admin');
+            if (user && user.role === 'admin') {
                 menuAdmin();
             } else {
                 console.log('Identifiants incorrects.');
@@ -72,18 +72,18 @@
         const choix = choixMenu('=== MENU ADMINISTRATEUR ===', [
             'Ajouter un professeur',
             'Lister les professeurs',
-            'Modifier un professeur',           
-            'Supprimer un professeur',          
+            'Modifier un professeur',
+            'Supprimer un professeur',
             'Ajouter un etudiant',
             'Lister les etudiants',
-            'Modifier un etudiant',             
-            'Supprimer un etudiant',        
+            'Modifier un etudiant',
+            'Supprimer un etudiant',
             'Ajouter une matiere',
             'Affecter un professeur a une matiere',
             'Lister les matieres',
-            'Supprimer une matiere',            
-            'Voir les absences d\'une classe',  
-            'Lister tous les utilisateurs',     
+            'Supprimer une matiere',
+            'Voir les absences d\'une classe',
+            'Lister tous les utilisateurs',
             'Se deconnecter'
         ]);
         if (choix === 1) {
@@ -109,8 +109,12 @@
             }
         } else if (choix === 4) {
             const id = question('ID du professeur a supprimer :');
-            teacherService.supprimerProfesseur(Number(id));
-            console.log('Professeur supprime.');
+            const ok = teacherService.supprimerProfesseur(Number(id));
+            if (ok) {
+                console.log('Professeur supprime.');
+            } else {
+                console.log('Impossible de supprimer le professeur.');
+            }
         } else if (choix === 5) {
             const matricule = question('Matricule :');
             const nom = question('Nom :');
@@ -136,8 +140,8 @@
             }
         } else if (choix === 8) {
             const matricule = question('Matricule de l\'etudiant a supprimer :');
-            studentService.supprimerEtudiant(matricule);
-            console.log('Etudiant supprime.');
+            const ok = studentService.supprimerEtudiant(matricule);
+            console.log(ok ? 'Etudiant supprime.' : 'Impossible de supprimer l\'etudiant.');
         } else if (choix === 9) {
             const nom = question('Nom de la matiere :');
             subjectService.ajouterMatiere(nom);
@@ -151,8 +155,8 @@
             console.table(subjectService.listerMatieres());
         } else if (choix === 12) {
             const subjectId = question('ID de la matiere a supprimer :');
-            subjectService.supprimerMatiere(Number(subjectId));
-            console.log('Matiere supprimee.');
+            const ok = subjectService.supprimerMatiere(Number(subjectId));
+            console.log(ok ? 'Matiere supprimee.' : 'Impossible de supprimer la matiere.');
         } else if (choix === 13) {
             const classe = question('Classe :');
             console.table(absenceService.historiqueClasse(classe));
@@ -172,11 +176,11 @@
             'Modifier une note',
             'Supprimer une note',
             'Calculer la moyenne d\'un etudiant',
-            'Voir toutes les notes d\'un etudiant',      
+            'Voir toutes les notes d\'un etudiant',
             'Enregistrer une absence',
             'Marquer une absence',
-            'Voir l\'historique d\'absences d\'un etudiant', 
-            'Compter les absences du jour (classe)',      
+            'Voir l\'historique d\'absences d\'un etudiant',
+            'Compter les absences du jour (classe)',
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'
@@ -260,7 +264,7 @@
         const choix = choixMenu(`=== MENU ETUDIANT (${etudiant.prenom} ${etudiant.nom}) ===`, [
             'Voir mes notes',
             'Voir ma moyenne',
-            'Voir mon historique d\'absences', 
+            'Voir mon historique d\'absences',
             'Voir le meilleur etudiant de la classe',
             'Voir la moyenne generale de la classe',
             'Se deconnecter'
