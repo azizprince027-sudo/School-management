@@ -1,1 +1,26 @@
 2026-07-02 08:46:18 [INFO] Demarrage de l'application School Management
+2026-07-02 10:24:31 [INFO] Demarrage de l'application School Management
+2026-07-02 10:25:01 [INFO] Connexion reussite : professeur Admin
+2026-07-02 10:28:52 [INFO] Demarrage de l'application School Management
+2026-07-02 10:29:20 [INFO] Connexion reussite : admin Admin
+2026-07-02 10:30:43 [INFO] Professeur modifie : id 7
+2026-07-02 10:31:13 [INFO] Professeur supprime : id 8
+2026-07-02 10:32:28 [INFO] Etudiant ajoute : 18026927I
+2026-07-02 10:34:00 [INFO] Etudiant ajoute : 18026927P
+2026-07-02 10:34:42 [INFO] Etudiant ajoute : 18026927H
+2026-07-02 10:35:19 [INFO] Etudiant ajoute : 18026927S
+2026-07-02 10:36:32 [INFO] Etudiant modifie : 18026927I
+2026-07-02 10:37:06 [INFO] Etudiant modifie : 18026927P
+2026-07-02 10:37:45 [INFO] Etudiant supprime : 18026927S
+2026-07-02 10:38:25 [INFO] Matiere ajoutee : HTML
+2026-07-02 10:39:22 [INFO] Professeur 7 affecte a la matiere 6
+2026-07-02 15:34:10 [INFO] Demarrage de l'application School Management
+2026-07-02 15:34:36 [INFO] Connexion reussite : professeur Admin
+2026-07-02 15:43:51 [INFO] Demarrage de l'application School Management
+2026-07-02 15:44:20 [INFO] Connexion reussite : admin Admin
+2026-07-02 15:46:29 [WARNING] Affectation impossible : matiere 14 introuvable
+2026-07-02 15:47:18 [INFO] Demarrage de l'application School Management
+2026-07-02 15:47:41 [INFO] Connexion reussite : admin Admin
+2026-07-02 15:50:01 [INFO] Connexion reussite : professeur Admin
+2026-07-02 15:51:14 [INFO] Demarrage de l'application School Management
+2026-07-02 15:51:26 [INFO] Connexion reussite : admin Admin

@@ -91,8 +91,8 @@
             const matiere = question('Matiere enseignee :');
             const classe = question('Classe geree :');
             const code = question('Code d\'acces a creer :');
-            teacherService.ajouterProfesseur(nom, matiere, classe, code);
-            console.log('Professeur ajoute.');
+            const id = teacherService.ajouterProfesseur(nom, matiere, classe, code);
+            console.log(id ? 'Professeur ajoute.' : 'Erreur : champs invalides.');
         } else if (choix === 2) {
             console.table(teacherService.listerProfesseurs());
         } else if (choix === 3) {
@@ -104,8 +104,8 @@
                 const nom = question(`Nom (${prof.nom}) :`) || prof.nom;
                 const matiere = question(`Matiere (${prof.matiere}) :`) || prof.matiere;
                 const classe = question(`Classe (${prof.classe}) :`) || prof.classe;
-                teacherService.modifierProfesseur(Number(id), { nom, matiere, classe });
-                console.log('Professeur modifie.');
+                const ok = teacherService.modifierProfesseur(Number(id), { nom, matiere, classe });
+                console.log(ok ? 'Professeur modifie.' : 'Modification impossible.');
             }
         } else if (choix === 4) {
             const id = question('ID du professeur a supprimer :');
@@ -144,13 +144,13 @@
             console.log(ok ? 'Etudiant supprime.' : 'Impossible de supprimer l\'etudiant.');
         } else if (choix === 9) {
             const nom = question('Nom de la matiere :');
-            subjectService.ajouterMatiere(nom);
-            console.log('Matiere ajoutee.');
+            const id = subjectService.ajouterMatiere(nom);
+            console.log(id ? 'Matiere ajoutee.' : 'Erreur : nom vide.');
         } else if (choix === 10) {
             const subjectId = question('ID matiere :');
             const teacherId = question('ID professeur :');
-            subjectService.affecterProfesseur(Number(subjectId), Number(teacherId));
-            console.log('Affectation effectuee.');
+            const ok = subjectService.affecterProfesseur(Number(subjectId), Number(teacherId));
+            console.log(ok ? 'Affectation effectuee.' : 'Affectation impossible.');
         } else if (choix === 11) {
             console.table(subjectService.listerMatieres());
         } else if (choix === 12) {
@@ -205,8 +205,8 @@
             console.log(ok ? 'Note modifiee.' : 'Note invalide.');
         } else if (choix === 4) {
             const gradeId = question('ID de la note a supprimer :');
-            gradeService.supprimerNote(Number(gradeId));
-            console.log('Note supprimee.');
+            const ok = gradeService.supprimerNote(Number(gradeId));
+            console.log(ok ? 'Note supprimee.' : 'Note introuvable.');
         } else if (choix === 5) {
             const matricule = question('Matricule etudiant :');
             const etudiant = studentService.rechercherEtudiant(matricule);
@@ -226,15 +226,17 @@
             const matricule = question('Matricule etudiant :');
             const etudiant = studentService.rechercherEtudiant(matricule);
             const date = question('Date (AAAA-MM-JJ) :');
-            if (etudiant) {
-                absenceService.enregistrerAbsence(etudiant.id, date);
-                console.log('Absence enregistree.');
+            if (!etudiant) {
+                console.log('Etudiant introuvable.');
+            } else {
+                const ok = absenceService.enregistrerAbsence(etudiant.id, date);
+                console.log(ok ? 'Absence enregistree.' : 'Date invalide,absence non enregistree');
             }
         } else if (choix === 8) {
             const absenceId = question('ID absence :');
             const justifiee = confirmer('Absence justifiee ?');
-            absenceService.marquerStatut(Number(absenceId), justifiee ? 'justifiee' : 'non_justifiee');
-            console.log('Statut mis a jour.');
+            const ok = absenceService.marquerStatut(Number(absenceId), justifiee ? 'justifiee' : 'non_justifiee');
+            console.log(ok ? 'Statut marque.' : 'Absence introuvable.');
         } else if (choix === 9) {
             const matricule = question('Matricule etudiant :');
             const etudiant = studentService.rechercherEtudiant(matricule);

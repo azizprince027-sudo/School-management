@@ -1,8 +1,14 @@
 const db = require('../db/database.js');
 const { logInfo, logWarning } = require('../utils/logger.js');
 const { ajouterUser } = require('./userServices.js');
+const { NonVide } = require('../utils/validation.js');
 // L'admin cree d'abord le compte (users), puis la fiche professeur (teachers)
+
 function ajouterProfesseur(nom, matiere, classe, codeAcces) {
+    if (!NonVide(nom) || !NonVide(matiere) || !NonVide(classe) || !NonVide(codeAcces)) {
+        logWarning('Tous les champs sont requis pour ajouter un professeur');
+        return null; 
+    }
     const userId = ajouterUser(nom, 'professeur', codeAcces);
     const stmt = db.prepare(
         'INSERT INTO teachers (user_id, nom, matiere, classe) VALUES (?, ?, ?, ?)'
@@ -11,20 +17,26 @@ function ajouterProfesseur(nom, matiere, classe, codeAcces) {
     logInfo(`Professeur ajoute : ${nom} - ${matiere} - Classe ${classe}`);
     return result.lastInsertRowid;
 }
-// La fonction "modifierProfesseur" est utilisée pour modifier les informations d'un professeur dans la base de données en utilisant son id. Elle prend deux paramètres : "id" qui représente l'id du professeur à modifier, et "champs" qui est un objet contenant les champs à modifier (nom, matiere, classe). La fonction utilise une requête SQL préparée pour mettre à jour les informations du professeur correspondant à cet id dans la table "teachers". Après la modification, une information est enregistrée dans les logs pour indiquer que le professeur a été modifié.
+
 function modifierProfesseur(id, champs) {
     const { nom, matiere, classe } = champs;
-    // On recupere le user_id lie a ce professeur AVANT la mise a jour
+    if (!NonVide(nom) || !NonVide(matiere) || !NonVide(classe)) {
+        logWarning(`Champs invalides pour modification professeur : id ${id}`);
+        return false;
+    }
     const prof = db.prepare('SELECT user_id FROM teachers WHERE id = ?').get(id);
+    if (!prof) {
+        logWarning(`Professeur introuvable pour modification : id ${id}`);
+        return false;
+    }
     db.prepare(
         'UPDATE teachers SET nom = ?, matiere = ?, classe = ? WHERE id = ?'
     ).run(nom, matiere, classe, id);
-
-    if (prof) {
-        db.prepare('UPDATE users SET name = ? WHERE id = ?').run(nom, prof.user_id);
-    }
+    db.prepare('UPDATE users SET name = ? WHERE id = ?').run(nom, prof.user_id);
     logInfo(`Professeur modifie : id ${id}`);
+    return true;
 }
+
 // La fonction "supprimerProfesseur" est utilisée pour supprimer un professeur de la base de données en utilisant son id. Elle prend un paramètre "id" qui représente l'id du professeur à supprimer. La fonction utilise une requête SQL préparée pour supprimer le professeur correspondant à cet id dans la table "teachers". Après la suppression, une information est enregistrée dans les logs pour indiquer que le professeur a été supprimé.
 function supprimerProfesseur(id) {
     const prof = db.prepare('SELECT user_id FROM teachers WHERE id = ?').get(id);

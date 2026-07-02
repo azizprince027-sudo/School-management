@@ -1,7 +1,12 @@
     const db = require('../db/database.js');
     const { logInfo, logWarning } = require('../utils/logger.js');
+    const { NonVide } = require('../utils/validation.js');
 
     function ajouterMatiere(nom, teacherId = null) {
+        if (!NonVide(nom)) {
+            logWarning('Ajout matiere impossible : nom vide');
+            return null;
+        }
         const stmt = db.prepare('INSERT INTO subjects (nom, teacher_id) VALUES (?, ?)');
         const result = stmt.run(nom, teacherId);
         logInfo(`Matiere ajoutee : ${nom}`);
@@ -9,9 +14,19 @@
     }
 
     function affecterProfesseur(subjectId, teacherId) {
-        db.prepare('UPDATE subjects SET teacher_id = ? WHERE id = ?').run(teacherId, subjectId);
+    try {
+        const result = db.prepare('UPDATE subjects SET teacher_id = ? WHERE id = ?').run(teacherId, subjectId);
+        if (result.changes === 0) {
+            logWarning(`Affectation impossible : matiere ${subjectId} introuvable`);
+            return false;
+        }
         logInfo(`Professeur ${teacherId} affecte a la matiere ${subjectId}`);
+        return true;
+    } catch (err) {
+        logWarning(`Affectation impossible : professeur ${teacherId} introuvable`);
+        return false;
     }
+}
 
     function listerMatieres() {
         return db.prepare(`
